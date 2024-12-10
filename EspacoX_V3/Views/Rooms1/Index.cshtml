@@ -13,16 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacity)
+                @Html.DisplayNameFor(model => model.Capacidade)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Availability)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Descrição)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Building)
@@ -34,16 +31,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
+                @Html.DisplayFor(modelItem => item.Capacidade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Availability)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Descrição)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Building.Id)

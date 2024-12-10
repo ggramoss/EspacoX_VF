@@ -7,10 +7,10 @@ namespace EspacoX_V3.Models
     public class Room
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public int Capacity { get; set; }
-        public bool? Availability { get; set; }
-        public string? Description { get; set; }
+        public string? Nome { get; set; }
+        public int Capacidade { get; set; }
+ 
+        public string? Descrição { get; set; }
         public int BuildingId { get; set; }
         public Building Building { get; set; }
         

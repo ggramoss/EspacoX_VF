@@ -10,16 +10,16 @@ using EspacoX_V3.Models;
 
 namespace EspacoX_V3.Controllers
 {
-    public class BuildingsController : Controller
+    public class Buildings1Controller : Controller
     {
         private readonly EspacoX_V3Context _context;
 
-        public BuildingsController(EspacoX_V3Context context)
+        public Buildings1Controller(EspacoX_V3Context context)
         {
             _context = context;
         }
 
-        // GET: Buildings
+        // GET: Buildings1
         public async Task<IActionResult> Index()
         {
               return _context.Building != null ? 
@@ -27,7 +27,7 @@ namespace EspacoX_V3.Controllers
                           Problem("Entity set 'EspacoX_V3Context.Building'  is null.");
         }
 
-        // GET: Buildings/Details/5
+        // GET: Buildings1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Building == null)
@@ -45,13 +45,13 @@ namespace EspacoX_V3.Controllers
             return View(building);
         }
 
-        // GET: Buildings/Create
+        // GET: Buildings1/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Buildings/Create
+        // POST: Buildings1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -67,7 +67,7 @@ namespace EspacoX_V3.Controllers
             return View(building);
         }
 
-        // GET: Buildings/Edit/5
+        // GET: Buildings1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Building == null)
@@ -83,7 +83,7 @@ namespace EspacoX_V3.Controllers
             return View(building);
         }
 
-        // POST: Buildings/Edit/5
+        // POST: Buildings1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -118,7 +118,7 @@ namespace EspacoX_V3.Controllers
             return View(building);
         }
 
-        // GET: Buildings/Delete/5
+        // GET: Buildings1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Building == null)
@@ -136,7 +136,7 @@ namespace EspacoX_V3.Controllers
             return View(building);
         }
 
-        // POST: Buildings/Delete/5
+        // POST: Buildings1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

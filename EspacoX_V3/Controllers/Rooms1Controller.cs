@@ -10,87 +10,90 @@ using EspacoX_V3.Models;
 
 namespace EspacoX_V3.Controllers
 {
-    public class BuildingsController : Controller
+    public class Rooms1Controller : Controller
     {
         private readonly EspacoX_V3Context _context;
 
-        public BuildingsController(EspacoX_V3Context context)
+        public Rooms1Controller(EspacoX_V3Context context)
         {
             _context = context;
         }
 
-        // GET: Buildings
+        // GET: Rooms1
         public async Task<IActionResult> Index()
         {
-              return _context.Building != null ? 
-                          View(await _context.Building.ToListAsync()) :
-                          Problem("Entity set 'EspacoX_V3Context.Building'  is null.");
+            var espacoX_V3Context = _context.Room.Include(r => r.Building);
+            return View(await espacoX_V3Context.ToListAsync());
         }
 
-        // GET: Buildings/Details/5
+        // GET: Rooms1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Building == null)
+            if (id == null || _context.Room == null)
             {
                 return NotFound();
             }
 
-            var building = await _context.Building
+            var room = await _context.Room
+                .Include(r => r.Building)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (building == null)
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return View(building);
+            return View(room);
         }
 
-        // GET: Buildings/Create
+        // GET: Rooms1/Create
         public IActionResult Create()
         {
+            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id");
             return View();
         }
 
-        // POST: Buildings/Create
+        // POST: Rooms1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Endereco,Cidade,Estado")] Building building)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Capacidade,Descrição,BuildingId")] Room room)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(building);
+            //if (ModelState.IsValid)
+            //{
+                _context.Add(room);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(building);
+           // }
+           // ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", room.BuildingId);
+           // return View(room);
         }
 
-        // GET: Buildings/Edit/5
+        // GET: Rooms1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Building == null)
+            if (id == null || _context.Room == null)
             {
                 return NotFound();
             }
 
-            var building = await _context.Building.FindAsync(id);
-            if (building == null)
+            var room = await _context.Room.FindAsync(id);
+            if (room == null)
             {
                 return NotFound();
             }
-            return View(building);
+            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", room.BuildingId);
+            return View(room);
         }
 
-        // POST: Buildings/Edit/5
+        // POST: Rooms1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Endereco,Cidade,Estado")] Building building)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Capacidade,Descrição,BuildingId")] Room room)
         {
-            if (id != building.Id)
+            if (id != room.Id)
             {
                 return NotFound();
             }
@@ -99,12 +102,12 @@ namespace EspacoX_V3.Controllers
             {
                 try
                 {
-                    _context.Update(building);
+                    _context.Update(room);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BuildingExists(building.Id))
+                    if (!RoomExists(room.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +118,51 @@ namespace EspacoX_V3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(building);
+            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", room.BuildingId);
+            return View(room);
         }
 
-        // GET: Buildings/Delete/5
+        // GET: Rooms1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Building == null)
+            if (id == null || _context.Room == null)
             {
                 return NotFound();
             }
 
-            var building = await _context.Building
+            var room = await _context.Room
+                .Include(r => r.Building)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (building == null)
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return View(building);
+            return View(room);
         }
 
-        // POST: Buildings/Delete/5
+        // POST: Rooms1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Building == null)
+            if (_context.Room == null)
             {
-                return Problem("Entity set 'EspacoX_V3Context.Building'  is null.");
+                return Problem("Entity set 'EspacoX_V3Context.Room'  is null.");
             }
-            var building = await _context.Building.FindAsync(id);
-            if (building != null)
+            var room = await _context.Room.FindAsync(id);
+            if (room != null)
             {
-                _context.Building.Remove(building);
+                _context.Room.Remove(room);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BuildingExists(int id)
+        private bool RoomExists(int id)
         {
-          return (_context.Building?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Room?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
