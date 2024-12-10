@@ -98,8 +98,8 @@ namespace EspacoX_V3.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     _context.Update(room);
@@ -117,9 +117,9 @@ namespace EspacoX_V3.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", room.BuildingId);
-            return View(room);
+            //}
+            //ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", room.BuildingId);
+            //return View(room);
         }
 
         // GET: Rooms1/Delete/5

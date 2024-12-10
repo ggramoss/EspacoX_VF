@@ -61,15 +61,15 @@ namespace EspacoX_V3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Status,UserId,RoomId")] Reservation reservation)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", reservation.UserId);
-            return View(reservation);
+            //}
+            //ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomId);
+            //ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", reservation.UserId);
+            //return View(reservation);
         }
 
         // GET: Reservations/Edit/5
@@ -102,8 +102,8 @@ namespace EspacoX_V3.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     _context.Update(reservation);
@@ -121,11 +121,14 @@ namespace EspacoX_V3.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", reservation.UserId);
-            return View(reservation);
+            //}
+
+            //ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomId);
+            //ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", reservation.UserId);
+            //return View(reservation);
         }
+      
+
 
         // GET: Reservations/Delete/5
         public async Task<IActionResult> Delete(int? id)
