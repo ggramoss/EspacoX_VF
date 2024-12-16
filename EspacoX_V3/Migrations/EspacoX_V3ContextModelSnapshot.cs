@@ -22,6 +22,43 @@ namespace EspacoX_V3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("EspacoX_V3.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataAdmisao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("funcao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("Admin");
+                });
+
             modelBuilder.Entity("EspacoX_V3.Models.Building", b =>
                 {
                     b.Property<int>("Id")
@@ -116,10 +153,6 @@ namespace EspacoX_V3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -135,15 +168,17 @@ namespace EspacoX_V3.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
             modelBuilder.Entity("EspacoX_V3.Models.Admin", b =>
                 {
-                    b.HasBaseType("EspacoX_V3.Models.User");
+                    b.HasOne("EspacoX_V3.Models.Building", "building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasDiscriminator().HasValue("Admin");
+                    b.Navigation("building");
                 });
 
             modelBuilder.Entity("EspacoX_V3.Models.Reservation", b =>

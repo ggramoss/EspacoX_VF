@@ -22,9 +22,8 @@ namespace EspacoX_V3.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-              return _context.Admin != null ? 
-                          View(await _context.Admin.ToListAsync()) :
-                          Problem("Entity set 'EspacoX_V3Context.Admin'  is null.");
+            var espacoX_V3Context = _context.Admin.Include(a => a.building);
+            return View(await espacoX_V3Context.ToListAsync());
         }
 
         // GET: Admins/Details/5
@@ -36,6 +35,7 @@ namespace EspacoX_V3.Controllers
             }
 
             var admin = await _context.Admin
+                .Include(a => a.building)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (admin == null)
             {
@@ -48,6 +48,7 @@ namespace EspacoX_V3.Controllers
         // GET: Admins/Create
         public IActionResult Create()
         {
+            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id");
             return View();
         }
 
@@ -56,15 +57,16 @@ namespace EspacoX_V3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Role")] Admin admin)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,DataAdmisao,funcao,BuildingId")] Admin admin)
         {
-            if (ModelState.IsValid)
+           // if (ModelState.IsValid)
             {
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(admin);
+           // ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", admin.BuildingId);
+           // return View(admin);
         }
 
         // GET: Admins/Edit/5
@@ -80,6 +82,7 @@ namespace EspacoX_V3.Controllers
             {
                 return NotFound();
             }
+            ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", admin.BuildingId);
             return View(admin);
         }
 
@@ -88,14 +91,14 @@ namespace EspacoX_V3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Role")] Admin admin)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,DataAdmisao,funcao,BuildingId")] Admin admin)
         {
             if (id != admin.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 try
                 {
@@ -115,7 +118,8 @@ namespace EspacoX_V3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(admin);
+           // ViewData["BuildingId"] = new SelectList(_context.Building, "Id", "Id", admin.BuildingId);
+          //  return View(admin);
         }
 
         // GET: Admins/Delete/5
@@ -127,6 +131,7 @@ namespace EspacoX_V3.Controllers
             }
 
             var admin = await _context.Admin
+                .Include(a => a.building)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (admin == null)
             {

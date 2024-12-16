@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EspacoX_V3.Migrations
 {
     [DbContext(typeof(EspacoX_V3Context))]
-    [Migration("20241209211919_2")]
-    partial class _2
+    [Migration("20241216233639_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,43 @@ namespace EspacoX_V3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("EspacoX_V3.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataAdmisao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("funcao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("Admin");
+                });
+
             modelBuilder.Entity("EspacoX_V3.Models.Building", b =>
                 {
                     b.Property<int>("Id")
@@ -32,11 +69,19 @@ namespace EspacoX_V3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Cidade")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -83,19 +128,16 @@ namespace EspacoX_V3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("Availability")
-                        .HasColumnType("bit");
-
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Capacity")
+                    b.Property<int>("Capacidade")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Descrição")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -113,10 +155,6 @@ namespace EspacoX_V3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -132,15 +170,17 @@ namespace EspacoX_V3.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
             modelBuilder.Entity("EspacoX_V3.Models.Admin", b =>
                 {
-                    b.HasBaseType("EspacoX_V3.Models.User");
+                    b.HasOne("EspacoX_V3.Models.Building", "building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasDiscriminator().HasValue("Admin");
+                    b.Navigation("building");
                 });
 
             modelBuilder.Entity("EspacoX_V3.Models.Reservation", b =>
